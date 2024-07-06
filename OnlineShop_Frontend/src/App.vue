@@ -1,35 +1,44 @@
-<script setup>
-import { ref } from 'vue'
+<template>
+  <div class="product-list">
+    <div v-for="product in products" :key="product.id" class="product-item">
+      <img :src="product.image" alt="product.name" />
+      <h3>{{ product.name }}</h3>
+      <p>{{ product.price }} $</p>
+      <router-link :to="`/product/${product.id}`">View Details</router-link>
+    </div>
+  </div>
+</template>
 
-// give each todo a unique id
-let id = 0
-
-const newTodo = ref('')
-const todos = ref([
-  { id: id++, text: 'Learn HTML' },
-  { id: id++, text: 'Learn JavaScript' },
-  { id: id++, text: 'Learn Vue' }
-])
-
-function addTodo() {
-  todos.value.push({ id: id++, text: newTodo.value })
-  newTodo.value = ''
-}
-
-function removeTodo(todo) {
-  todos.value = todos.value.filter((t) => t !== todo)
-}
+<script>
+export default {
+  name: 'ProductList',
+  data() {
+    return {
+      products: [
+        { id: 1, name: 'Product 1', price: 10, image: '1.jpg' },
+        { id: 2, name: 'Product 2', price: 20, image: '1.jpg' },
+      ],
+    };
+  },
+};
 </script>
 
-<template>
-  <form @submit.prevent="addTodo">
-    <input v-model="newTodo" required placeholder="new todo">
-    <button>Add Todo</button>
-  </form>
-  <ul>
-    <li v-for="todo in todos" :key="todo.id">
-      {{ todo.text }}
-      <button @click="removeTodo(todo)">X</button>
-    </li>
-  </ul>
-</template>
+<style scoped>
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product-item {
+  flex: 1 1 calc(33.333% - 1rem);
+  margin: 0.5rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.product-item img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
