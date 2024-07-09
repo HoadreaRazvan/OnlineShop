@@ -1,44 +1,45 @@
 <template>
-  <div class="product-list">
-    <div v-for="product in products" :key="product.id" class="product-item">
-      <img :src="product.image" alt="product.name" />
-      <h3>{{ product.name }}</h3>
-      <p>{{ product.price }} $</p>
-      <router-link :to="`/product/${product.id}`">View Details</router-link>
-    </div>
+  <div id="app">
+    <h1>Cat Information</h1>
+    <button @click="fetchCats">Get Cats</button>
+    <p v-if="message">{{ message }}</p>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-  name: 'ProductList',
+  name: 'App',
   data() {
     return {
-      products: [
-        { id: 1, name: 'Product 1', price: 10, image: '1.jpg' },
-        { id: 2, name: 'Product 2', price: 20, image: '1.jpg' },
-      ],
+      message: '',
     };
+  },
+  methods: {
+    async fetchCats() {
+      try {
+        const response = await axios.get('http://localhost:3000/cats');
+        this.message = response.data;
+      } catch (error) {
+        console.error('There was an error!', error);
+      }
+    },
   },
 };
 </script>
 
-<style scoped>
-.product-list {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.product-item {
-  flex: 1 1 calc(33.333% - 1rem);
-  margin: 0.5rem;
-  padding: 1rem;
-  border: 1px solid #ddd;
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  margin-top: 60px;
 }
-
-.product-item img {
-  max-width: 100%;
-  height: auto;
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
 }
 </style>
