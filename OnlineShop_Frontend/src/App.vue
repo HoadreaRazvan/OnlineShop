@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Cat Information</h1>
+    <h1>Cat Information!</h1>
     <button @click="fetchCats">Get Cats</button>
     <p v-if="message">{{ message }}</p>
   </div>
