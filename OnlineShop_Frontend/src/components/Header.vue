@@ -1,7 +1,7 @@
 <!-- src/components/Header.vue -->
 <template>
     <header>
-      <h1>My E-Commerce Site</h1>
+      <h1>Hoadrea's E-Commerce Site</h1>
     </header>
   </template>
   

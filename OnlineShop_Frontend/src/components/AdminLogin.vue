@@ -3,17 +3,24 @@
   <div class="admin-login">
     <h2>Admin Login</h2>
     <form @submit.prevent="login">
-      <div>
+      <div class="form-group">
         <label for="admin-email">Email:</label>
         <input type="email" id="admin-email" v-model="email" required>
       </div>
-      <div>
+      <div class="form-group">
         <label for="admin-password">Password:</label>
-        <input type="password" id="admin-password" v-model="password" required>
+        <div class="password-container">
+          <input :type="passwordFieldType" id="admin-password" v-model="password" required>
+          <button type="button" @click="togglePasswordVisibility" class="toggle-password-button">
+            {{ passwordFieldType === 'password' ? 'Show' : 'Hide' }}
+          </button>
+        </div>
       </div>
-      <button type="submit" class="login-button">Login</button>
+      <div class="button-group">
+        <button type="button" @click="$emit('set-view', 'home')" class="back-button">Back</button>
+        <button type="submit" class="login-button">Login</button>
+      </div>
     </form>
-    <button @click="$emit('set-view', 'home')" class="back-button">Back</button>
   </div>
 </template>
 
@@ -23,13 +30,17 @@ export default {
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      passwordFieldType: 'password'
     }
   },
   methods: {
     login() {
       // Implementare login admin
       console.log('Admin login', this.email, this.password);
+    },
+    togglePasswordVisibility() {
+      this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
     }
   }
 }
@@ -39,34 +50,56 @@ export default {
 .admin-login {
   max-width: 300px;
   margin: 100px auto;
-  animation: slideIn 1s ease-in-out;
 }
-form {
+.form-group {
   display: flex;
   flex-direction: column;
+  margin-bottom: 15px;
+}
+.password-container {
+  display: flex;
+  align-items: center;
 }
 label {
-  margin-top: 10px;
+  margin-bottom: 5px;
 }
 input {
   padding: 8px;
-  margin-top: 5px;
+  font-size: 14px;
+  flex: 1;
+}
+.toggle-password-button {
+  margin-left: 5px;
+  padding: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  transition: background-color 0.3s;
+}
+.toggle-password-button:hover {
+  background-color: #388E3C;
+}
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 button.login-button, button.back-button {
-  margin-top: 20px;
   padding: 10px;
   font-size: 16px;
   background-color: #4CAF50;
   color: white;
   border: none;
   cursor: pointer;
+  width: 48%;
   transition: background-color 0.3s;
 }
-button.login-button:hover, button.back-button:hover {
-  background-color: #45a049;
+button.login-button:hover {
+  background-color: #00ff0d;
 }
-@keyframes slideIn {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
+button.back-button:hover {
+  background-color: #D32F2F;
 }
 </style>
