@@ -20,6 +20,7 @@
         <button type="button" @click="$emit('set-view', 'home')" class="back-button">Back</button>
         <button type="submit" class="login-button">Login</button>
       </div>
+      <button type="button" @click="$emit('set-view', 'register')" class="register-button">Register</button>
     </form>
   </div>
 </template>
@@ -101,5 +102,19 @@ button.login-button:hover {
 }
 button.back-button:hover {
   background-color: #D32F2F;
+}
+.register-button {
+  margin-top: 15px;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s;
+}
+.register-button:hover {
+  background-color: #2196F3;
 }
 </style>

@@ -14,6 +14,7 @@ import Footer from './components/Footer.vue'
 import Home from './components/Home.vue'
 import AdminLogin from './components/AdminLogin.vue'
 import ClientLogin from './components/ClientLogin.vue'
+import ClientRegister from './components/ClientRegister.vue'
 
 export default {
   name: 'App',
@@ -22,7 +23,8 @@ export default {
     Footer,
     Home,
     AdminLogin,
-    ClientLogin
+    ClientLogin,
+    ClientRegister
   },
   data() {
     return {
@@ -31,9 +33,12 @@ export default {
   },
   methods: {
     setView(view) {
-      this.currentView = view.charAt(0).toUpperCase() + view.slice(1) + 'Login';
+      this.currentView = view.charAt(0).toUpperCase() + view.slice(1) + (view === 'register' ? '' : 'Login');
       if (view === 'home') {
         this.currentView = 'Home';
+      }
+      if (view === 'register') {
+        this.currentView = 'ClientRegister';
       }
     }
   }
