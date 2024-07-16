@@ -6,12 +6,12 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-    async createUser(@Body() body: { email: string; password: string }) {
-        if (!body.email || !body.password) {
-        throw new HttpException('Missing email or password', HttpStatus.BAD_REQUEST);
-        }
-        return this.userService.createUser(body.email, body.password);
+  async createUser(@Body() body: { email: string; password: string; admin: boolean }) {
+    if (!body.email || !body.password) {
+      throw new HttpException('Missing email or password', HttpStatus.BAD_REQUEST);
     }
+    return this.userService.createUser(body.email, body.password, body.admin);
+  }
 
   @Get()
   async getUsers() {

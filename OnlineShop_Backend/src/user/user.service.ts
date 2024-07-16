@@ -17,12 +17,13 @@ export class UserService implements OnModuleInit, OnModuleDestroy {
     await this.prisma.$disconnect();
   }
 
-  async createUser(email: string, password: string): Promise<User> {
+  async createUser(email: string, password: string, admin: boolean): Promise<User> {
     try {
       const user = await this.prisma.user.create({
         data: {
           email,
           password,
+          admin,
         },
       });
       console.log('User created:', user);
