@@ -1,4 +1,3 @@
-<!-- src/components/AdminLogin.vue -->
 <template>
   <div class="admin-login">
     <h2>Admin Login</h2>
@@ -20,24 +19,41 @@
         <button type="button" @click="$emit('set-view', 'home')" class="back-button">Back</button>
         <button type="submit" class="login-button">Login</button>
       </div>
+      <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
     </form>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'AdminLogin',
   data() {
     return {
       email: '',
       password: '',
-      passwordFieldType: 'password'
+      passwordFieldType: 'password',
+      errorMessage: ''
     }
   },
   methods: {
-    login() {
-      // Implementare login admin
-      console.log('Admin login', this.email, this.password);
+    async login() {
+      try {
+        const response = await axios.post('http://localhost:3000/user/login/admin', {
+          email: this.email,
+          password: this.password
+        });
+            
+        if (response.data && response.data.success) {
+          this.$emit('set-view', 'adminInterface');
+        } else {
+          this.errorMessage = 'Invalid email or password';
+        }
+      } catch (error) {
+        console.error('Error during login:', error);
+        this.errorMessage = 'Invalid email or password';
+      }
     },
     togglePasswordVisibility() {
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
@@ -47,6 +63,7 @@ export default {
 </script>
 
 <style scoped>
+/* Existing CSS styles */
 .admin-login {
   max-width: 300px;
   margin: 100px auto;
@@ -101,5 +118,9 @@ button.login-button:hover {
 }
 button.back-button:hover {
   background-color: #D32F2F;
+}
+.error-message {
+  color: red;
+  margin-top: 10px;
 }
 </style>

@@ -1,4 +1,3 @@
-<!-- src/components/ClientLogin.vue -->
 <template>
   <div class="client-login">
     <h2>Client Login</h2>
@@ -21,24 +20,41 @@
         <button type="submit" class="login-button">Login</button>
       </div>
       <button type="button" @click="$emit('set-view', 'register')" class="register-button">Register</button>
+      <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
     </form>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'ClientLogin',
   data() {
     return {
       email: '',
       password: '',
-      passwordFieldType: 'password'
+      passwordFieldType: 'password',
+      errorMessage: ''
     }
   },
   methods: {
-    login() {
-      // Implementare login client
-      console.log('Client login', this.email, this.password);
+    async login() {
+      try {
+        const response = await axios.post('http://localhost:3000/user/login/client', {
+          email: this.email,
+          password: this.password
+        });
+
+        if (response.data && response.data.success) {
+          this.$emit('set-view', 'clientInterface');
+        } else {
+          this.errorMessage = 'Invalid email or password';
+        }
+      } catch (error) {
+        console.error('Error during login:', error);
+        this.errorMessage = 'Invalid email or password';
+      }
     },
     togglePasswordVisibility() {
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
@@ -116,5 +132,9 @@ button.back-button:hover {
 }
 .register-button:hover {
   background-color: #2196F3;
+}
+.error-message {
+  color: red;
+  margin-top: 10px;
 }
 </style>

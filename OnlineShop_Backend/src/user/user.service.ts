@@ -44,4 +44,16 @@ export class UserService implements OnModuleInit, OnModuleDestroy {
       throw error;
     }
   }
+
+  async findUserByEmail(email: string): Promise<User | null> {
+    try {
+      return await this.prisma.user.findUnique({
+        where: { email },
+      });
+    } catch (error) {
+      console.error('Error finding user by email:', error);
+      throw error;
+    }
+  }
+  
 }
