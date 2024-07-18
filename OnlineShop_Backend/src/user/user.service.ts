@@ -17,22 +17,6 @@ export class UserService implements OnModuleInit, OnModuleDestroy {
     await this.prisma.$disconnect();
   }
 
-  async createUser(email: string, password: string, admin: boolean): Promise<User> {
-    try {
-      const user = await this.prisma.user.create({
-        data: {
-          email,
-          password,
-          admin,
-        },
-      });
-      console.log('User created:', user);
-      return user;
-    } catch (error) {
-      console.error('Error creating user:', error);
-      throw error;
-    }
-  }  
 
   async getUsers(): Promise<User[]> {
     try {
@@ -53,6 +37,46 @@ export class UserService implements OnModuleInit, OnModuleDestroy {
     } catch (error) {
       console.error('Error finding user by email:', error);
       throw error;
+    }
+  }
+
+ async createUser(email: string, password: string, admin: boolean): Promise<User> {
+    try {
+      return await this.prisma.user.create({
+        data: {
+          email,
+          password,
+          admin,
+        },
+      });
+    } catch (error) {
+      throw new Error(`Failed to create user: ${error.message}`);
+    }
+  }
+
+  async updateUser(id: string, newEmail?: string, newPassword?: string, newAdmin?: boolean): Promise<User> {
+    try {
+      const data: any = {};
+      if (newEmail) data.email = newEmail;
+      if (newPassword) data.password = newPassword;
+      if (newAdmin !== undefined) data.admin = newAdmin;
+
+      return await this.prisma.user.update({
+        where: { id: id },
+        data,
+      });
+    } catch (error) {
+      throw new Error(`Failed to update user with id ${id}: ${error.message}`);
+    }
+  }
+
+  async deleteUser(id: string): Promise<User> {
+    try {
+      return await this.prisma.user.delete({
+        where: { id: id },
+      });
+    } catch (error) {
+      throw new Error(`Failed to delete user with id ${id}: ${error.message}`);
     }
   }
   

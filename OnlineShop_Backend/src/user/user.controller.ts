@@ -40,12 +40,29 @@ export class UserController {
   }
 
   @Post('register')
-  async register(@Body() body: { email: string; password: string }) {
+  async createNewUser(@Body() body: { email: string; password: string; admin: boolean }) {
     try {
-      const newUser = await this.userService.createUser(body.email, body.password, false);
-      return { success: true, user: newUser };
+      return await this.userService.createUser(body.email, body.password, body.admin);
     } catch (error) {
-      throw new HttpException('Registration failed', HttpStatus.BAD_REQUEST);
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Post('update')
+  async updateUser(@Body() body: { id: string; newEmail?: string; newPassword?: string; newAdmin?: boolean }) {
+    try {
+      return await this.userService.updateUser(body.id, body.newEmail, body.newPassword, body.newAdmin);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Post('delete')
+  async deleteUser(@Body() body: { id: string }) {
+    try {
+      return await this.userService.deleteUser(body.id);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
   

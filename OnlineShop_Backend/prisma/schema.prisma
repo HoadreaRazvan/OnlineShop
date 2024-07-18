@@ -15,3 +15,12 @@ model User {
   password String
   admin    Boolean
 }
+
+model Product {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  image       String
+  title       String
+  description String
+  price       Float
+  quantity    Int
+}
