@@ -1,4 +1,3 @@
-<!-- src/components/Header.vue -->
 <template>
     <header>
       <h1>Hoadrea's E-Commerce Site</h1>

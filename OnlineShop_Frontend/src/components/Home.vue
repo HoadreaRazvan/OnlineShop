@@ -1,4 +1,3 @@
-<!-- src/components/Home.vue -->
 <template>
   <div class="home">
     <h1>Welcome to Hoadrea's E-Commerce Site</h1>

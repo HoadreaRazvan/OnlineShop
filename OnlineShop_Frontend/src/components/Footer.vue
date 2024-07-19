@@ -1,4 +1,3 @@
-<!-- src/components/Footer.vue -->
 <template>
     <footer>
       <p>&copy; 2024 Hoadrea's E-Commerce Site</p>

@@ -63,7 +63,6 @@ export default {
 </script>
 
 <style scoped>
-/* Existing CSS styles */
 .admin-login {
   max-width: 300px;
   margin: 100px auto;

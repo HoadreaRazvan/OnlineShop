@@ -69,4 +69,29 @@ export class ProductService implements OnModuleInit, OnModuleDestroy {
       throw error;
     }
   }
+
+   async placeOrder(orderItems: { id: string, quantity: number }[]): Promise<void> {
+    try {
+      for (const item of orderItems) {
+        const product = await this.prisma.product.findUnique({
+          where: { id: item.id }
+        });
+        
+        if (!product) {
+          throw new Error(`Product with id ${item.id} not found`);
+        }
+        
+        if (product.quantity < item.quantity) {
+          throw new Error(`Not enough stock for product with id ${item.id}`);
+        }
+        
+        await this.prisma.product.update({
+          where: { id: item.id },
+          data: { quantity: product.quantity - item.quantity },
+        });
+      }
+    } catch (error) {
+      throw new Error(`Failed to place order: ${error.message}`);
+    }
+  }
 }

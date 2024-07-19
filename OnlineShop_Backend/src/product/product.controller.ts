@@ -28,4 +28,14 @@ export class ProductController {
   async getProducts() {
     return this.productService.getProducts();
   }
+
+    @Post('order')
+  async placeOrder(@Body() body: { orderItems: { id: string, quantity: number }[] }) {
+    try {
+      await this.productService.placeOrder(body.orderItems);
+      return { message: 'Order placed successfully' };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }

@@ -69,7 +69,7 @@ export default {
 }
 
 #content {
-  padding-top: 80px; /* To make space for the fixed header */
-  padding-bottom: 40px; /* To make space for the fixed footer */
+  padding-top: 80px; 
+  padding-bottom: 40px; 
 }
 </style>
